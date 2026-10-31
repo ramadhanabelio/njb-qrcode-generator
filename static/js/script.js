@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const Black = "#000000";
   const njbNavy = "#1A3673";
   const njbGreen = "#8CC63F";
 
@@ -16,9 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
       margin: 5,
       crossOrigin: "anonymous",
     },
-    dotsOptions: { type: "square", color: njbNavy },
-    cornersSquareOptions: { type: "", color: njbNavy },
-    cornersDotOptions: { type: "", color: njbGreen },
+    dotsOptions: { type: "square", color: Black },
+    cornersSquareOptions: { type: "", color: Black },
+    cornersDotOptions: { type: "", color: Black },
   };
 
   const qrCode = new QRCodeStyling(qrOptions);
@@ -87,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const format = document.getElementById("formatSelect").value;
     const fileNameRaw = document.getElementById("filenameInput").value.trim();
     qrCode.download({
-      name: fileNameRaw || "NJB_QRCode",
+      name: fileNameRaw || "QR Code",
       extension: format,
     });
   });
