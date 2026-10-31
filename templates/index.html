@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NJB - QR Code Generator</title>
+    <!-- Tailwind CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <!-- QR Code Styling Library -->
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"
+    ></script>
+    <!-- My CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body class="font-sans min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm navbar-njb p-4 sticky top-0 z-50">
+      <div class="container mx-auto flex items-center gap-3">
+        <div
+          class="font-extrabold text-2xl tracking-wide"
+          style="color: var(--njb-navy)"
+        >
+          NJB <span style="color: var(--njb-green)">QR Generator</span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mx-auto py-10 px-4 flex flex-col lg:flex-row gap-8">
+      <!-- KIRI: PANEL PENGATURAN -->
+      <div class="w-full lg:w-2/3 space-y-6">
+        <!-- 1. Input Data -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+          <h3
+            class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4"
+          >
+            1. Konten QR Code
+          </h3>
+          <textarea
+            id="dataInput"
+            rows="2"
+            class="w-full custom-input rounded-lg p-4 text-slate-700"
+            placeholder="Masukkan URL atau Teks di sini..."
+          ></textarea>
+        </div>
+
+        <!-- 2. Body Shapes & Color -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+          <h3
+            class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4"
+          >
+            2. Bentuk Pola (Body)
+          </h3>
+          <div class="flex flex-wrap gap-3 mb-5">
+            <label class="shape-option"
+              ><input
+                type="radio"
+                name="bodyShape"
+                value="square"
+                class="hidden"
+                checked
+              />
+              <div class="shape-box font-bold text-xs">Sq</div></label
+            >
+            <label class="shape-option"
+              ><input
+                type="radio"
+                name="bodyShape"
+                value="dots"
+                class="hidden"
+              />
+              <div class="shape-box font-bold text-xs">Dot</div></label
+            >
+            <label class="shape-option"
+              ><input
+                type="radio"
+                name="bodyShape"
+                value="rounded"
+                class="hidden"
+              />
+              <div class="shape-box font-bold text-xs">Rnd</div></label
+            >
+            <label class="shape-option"
+              ><input
+                type="radio"
+                name="bodyShape"
+                value="extra-rounded"
+                class="hidden"
+              />
+              <div class="shape-box font-bold text-xs">XRnd</div></label
+            >
+            <label class="shape-option"
+              ><input
+                type="radio"
+                name="bodyShape"
+                value="classy"
+                class="hidden"
+              />
+              <div class="shape-box font-bold text-xs">Cls</div></label
+            >
+            <label class="shape-option"
+              ><input
+                type="radio"
+                name="bodyShape"
+                value="classy-rounded"
+                class="hidden"
+              />
+              <div class="shape-box font-bold text-xs">ClsR</div></label
+            >
+          </div>
+
+          <div
+            class="flex items-center gap-4 bg-slate-50 p-3 rounded-lg border border-slate-200 inline-flex"
+          >
+            <span class="text-sm font-semibold text-slate-600"
+              >Warna Pola:</span
+            >
+            <input
+              type="color"
+              id="bodyColor"
+              value="#1A3673"
+              class="h-8 w-14 cursor-pointer rounded border-0 bg-transparent p-0"
+            />
+          </div>
+        </div>
+
+        <!-- 3. External & Internal Eye -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- External Eye -->
+          <div
+            class="bg-white p-6 rounded-xl shadow-sm border border-slate-200"
+          >
+            <h3
+              class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4"
+            >
+              Bingkai Mata (External)
+            </h3>
+            <div class="flex flex-wrap gap-3 mb-5">
+              <label class="shape-option">
+                <input
+                  type="radio"
+                  name="extEyeShape"
+                  value=""
+                  class="hidden"
+                  checked
+                />
+                <div class="shape-box text-slate-400">
+                  <svg
+                    class="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    ></path>
+                  </svg>
+                </div>
+              </label>
+              <label class="shape-option"
+                ><input
+                  type="radio"
+                  name="extEyeShape"
+                  value="square"
+                  class="hidden" />
+                <div class="shape-box"><div class="eye-ext-square"></div></div
+              ></label>
+              <label class="shape-option"
+                ><input
+                  type="radio"
+                  name="extEyeShape"
+                  value="extra-rounded"
+                  class="hidden" />
+                <div class="shape-box"><div class="eye-ext-leaf"></div></div
+              ></label>
+              <label class="shape-option"
+                ><input
+                  type="radio"
+                  name="extEyeShape"
+                  value="dot"
+                  class="hidden" />
+                <div class="shape-box"><div class="eye-ext-circle"></div></div
+              ></label>
+            </div>
+            <div
+              class="flex items-center gap-4 bg-slate-50 p-3 rounded-lg border border-slate-200 inline-flex"
+            >
+              <span class="text-sm font-semibold text-slate-600">Warna:</span>
+              <input
+                type="color"
+                id="extEyeColor"
+                value="#1A3673"
+                class="h-8 w-14 cursor-pointer rounded border-0 bg-transparent p-0"
+              />
+            </div>
+          </div>
+
+          <!-- Internal Eye -->
+          <div
+            class="bg-white p-6 rounded-xl shadow-sm border border-slate-200"
+          >
+            <h3
+              class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4"
+            >
+              Titik Mata (Internal)
+            </h3>
+            <div class="flex flex-wrap gap-3 mb-5">
+              <label class="shape-option">
+                <input
+                  type="radio"
+                  name="intEyeShape"
+                  value=""
+                  class="hidden"
+                  checked
+                />
+                <div class="shape-box text-slate-400">
+                  <svg
+                    class="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    ></path>
+                  </svg>
+                </div>
+              </label>
+              <label class="shape-option"
+                ><input
+                  type="radio"
+                  name="intEyeShape"
+                  value="square"
+                  class="hidden" />
+                <div class="shape-box"><div class="eye-int-square"></div></div
+              ></label>
+              <label class="shape-option"
+                ><input
+                  type="radio"
+                  name="intEyeShape"
+                  value="dot"
+                  class="hidden" />
+                <div class="shape-box"><div class="eye-int-circle"></div></div
+              ></label>
+            </div>
+            <div
+              class="flex items-center gap-4 bg-slate-50 p-3 rounded-lg border border-slate-200 inline-flex"
+            >
+              <span class="text-sm font-semibold text-slate-600">Warna:</span>
+              <input
+                type="color"
+                id="intEyeColor"
+                value="#8CC63F"
+                class="h-8 w-14 cursor-pointer rounded border-0 bg-transparent p-0"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Upload Logo -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+          <h3
+            class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4"
+          >
+            3. Logo
+          </h3>
+
+          <label class="upload-container block relative">
+            <input type="file" id="logoInput" accept="image/*" />
+            <div id="uploadText" class="text-slate-500 mb-2 text-sm">
+              Drag & drop logo Anda, atau klik untuk memilih file
+            </div>
+            <div class="btn-upload">Pilih Logo</div>
+          </label>
+
+          <div class="mt-3 flex items-center justify-between">
+            <span
+              id="fileNameDisplay"
+              class="text-sm font-medium text-slate-600 italic"
+              >Belum ada logo terpilih</span
+            >
+            <button
+              id="removeLogoBtn"
+              class="text-sm text-red-500 hover:text-red-700 font-bold hidden px-3 py-1 bg-red-50 rounded-md"
+            >
+              Hapus Logo
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- KANAN: PANEL PREVIEW & DOWNLOAD -->
+      <div class="w-full lg:w-1/3">
+        <div
+          class="bg-white p-6 rounded-xl shadow-md border border-slate-200 sticky top-24 text-center"
+        >
+          <h3 class="text-lg font-extrabold text-slate-800 mb-1">
+            Live Preview
+          </h3>
+          <p class="text-xs text-slate-400 mb-6 uppercase tracking-widest">
+            Generate Otomatis
+          </p>
+
+          <div
+            id="qr-preview"
+            class="flex justify-center items-center mb-6 min-h-[300px] bg-slate-50 rounded-xl p-4 border border-slate-100"
+          ></div>
+
+          <div class="flex gap-3 mb-6">
+            <select
+              id="formatSelect"
+              class="custom-input custom-select text-sm rounded-lg block w-1/3 p-3 font-semibold text-slate-700 bg-white cursor-pointer"
+            >
+              <option value="png">PNG</option>
+              <option value="jpeg">JPEG</option>
+              <option value="svg">SVG</option>
+            </select>
+            <input
+              type="text"
+              id="filenameInput"
+              placeholder="Nama file (ops."
+              class="custom-input text-sm rounded-lg block w-2/3 p-3 text-slate-700"
+            />
+          </div>
+
+          <button
+            id="downloadBtn"
+            class="w-full btn-primary font-bold py-3.5 px-4 rounded-lg shadow-lg flex items-center justify-center gap-2"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+              ></path>
+            </svg>
+            DOWNLOAD QR CODE
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- My JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>
